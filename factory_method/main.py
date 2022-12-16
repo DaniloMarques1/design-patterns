@@ -18,17 +18,25 @@ class ShippingDelivery:
     def createTransport(self):
         pass
 
+    @abstractclassmethod
+    def deliver(self):
+        pass
+
+class ShippingByTruck(ShippingDelivery):
+    def createTransport(self) -> Shipping:
+        return Truck()
+
     def deliver(self):
         shipping = self.createTransport()
         shipping.deliver()
 
-class ShippingByTruck(ShippingDelivery):
-    def createTransport(self):
-        return Truck()
-
 class ShippingByShip(ShippingDelivery):
     def createTransport(self):
         return Ship()
+
+    def deliver(self):
+        shipping = self.createTransport()
+        shipping.deliver()
 
 def main():
     shippingType = "truck"
