@@ -13,6 +13,7 @@ type Person struct {
 	IsWorking bool   `json:"is_working"`
 }
 
+// sends a message to kafka in bytes
 func SendKafka(reader io.Reader) {
 	b, err := io.ReadAll(reader)
 	if err != nil {
@@ -26,6 +27,7 @@ type PersonAdapter struct {
 	p Person
 }
 
+// estamos adaptando o tipo Person para que ele possa ser usado na função SendKafka
 func (pd PersonAdapter) Read(p []byte) (int, error) {
 	b, err := json.Marshal(pd.p)
 	if err != nil {
@@ -42,7 +44,9 @@ func main() {
 		IsWorking: true,
 	}
 
-	pd := PersonAdapter{p}
+	pd := PersonAdapter{
+		p: p,
+	}
 
 	f, err := os.Open("test.json")
 	if err != nil {
