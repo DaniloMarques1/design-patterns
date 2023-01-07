@@ -22,11 +22,13 @@ func NewNode(v int) *Node {
 type LinkedList interface {
 	Add(int)
 	Pop()
+	Size() int
 	CreateLinkedListIterator(uint) (LinkedListIterator, error)
 }
 
 type linkedList struct {
 	node *Node
+	size int
 }
 
 func NewLinkedList() LinkedList {
@@ -47,6 +49,7 @@ func (l *linkedList) Add(value int) {
 
 		cur.next = node
 	}
+	l.size++
 }
 
 func (l *linkedList) Pop() {
@@ -67,6 +70,7 @@ func (l *linkedList) Pop() {
 	}
 
 	prev.next = nil
+	l.size--
 }
 
 func (l *linkedList) Print() {
@@ -83,6 +87,10 @@ func (l *linkedList) Print() {
 		fmt.Println(cur.data)
 		cur = cur.next
 	}
+}
+
+func (l *linkedList) Size() int {
+	return l.size
 }
 
 // creates an iterator based on the provided type

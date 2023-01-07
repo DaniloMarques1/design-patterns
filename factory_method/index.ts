@@ -36,20 +36,32 @@ class DoPaymentTransfer extends DoPayment {
     }
 }
 
-let paymentType = "transfer";
-let doPayment: DoPayment;
+function getPaymentMethod(method: string): DoPayment {
+  let doPayment: DoPayment;
 
-switch (paymentType) {
-    case "transfer":
-        doPayment = new DoPaymentTransfer();
-        break;
-    case "card":
-        doPayment = new DoPaymentCard();
-        break;
-    default:
-        console.log("Payment method not allowed");
-        process.exit();
-    
+  switch (method) {
+    case "transfer": {
+      doPayment = new DoPaymentTransfer();
+      break;
+    }
+    case "card": {
+      doPayment = new DoPaymentCard();
+      break;
+    }
+    default: {
+      console.log("Payment method not allowed");
+      process.exit();
+    }
+  }
+
+  return doPayment;
 }
 
+const PAYMENT_METHOD = {
+  CARD: "card",
+  TRANSFER: "transfer",
+};
+
+let paymentType = PAYMENT_METHOD.TRANSFER;
+const doPayment = getPaymentMethod(paymentType);
 doPayment.pay();
